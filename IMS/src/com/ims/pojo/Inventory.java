@@ -9,13 +9,15 @@ package com.ims.pojo;
  *
  * @author kalad
  */
-public class Product {
+public class Inventory {
     private Integer productID;
-    private String productName;
+    private String ProductName;
     private String productDesc;
-    private String packageSize;
+    private Integer onHandQty;
     private Double retailPrice;
     private Double sellingPrice;
+    private String packageSize;
+    private Double stockValue;
 
     /**
      * @return the productID
@@ -32,17 +34,17 @@ public class Product {
     }
 
     /**
-     * @return the productName
+     * @return the ProductName
      */
     public String getProductName() {
-        return productName;
+        return ProductName;
     }
 
     /**
-     * @param productName the productName to set
+     * @param ProductName the ProductName to set
      */
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setProductName(String ProductName) {
+        this.ProductName = ProductName;
     }
 
     /**
@@ -60,19 +62,19 @@ public class Product {
     }
 
     /**
-     * @return the packageSize
+     * @return the onHandQty
      */
-    public String getPackageSize() {
-        return packageSize;
+    public Integer getOnHandQty() {
+        return onHandQty;
     }
 
     /**
-     * @param packageSize the packageSize to set
+     * @param onHandQty the onHandQty to set
      */
-    public void setPackageSize(String packageSize) {
-        this.packageSize = packageSize;
+    public void setOnHandQty(Integer onHandQty) {
+        this.onHandQty = onHandQty;
     }
-    
+
     /**
      * @return the retailPrice
      */
@@ -100,4 +102,31 @@ public class Product {
     public void setSellingPrice(Double sellingPrice) {
         this.sellingPrice = sellingPrice;
     }
+
+    /**
+     * @return the stockValue
+     */
+    public Double getStockValue() {
+        calculateStockValue();
+        return stockValue;
+    }
+    
+    private void calculateStockValue() {
+        this.stockValue = this.onHandQty * this.sellingPrice;
+    }
+
+    /**
+     * @return the packageSize
+     */
+    public String getPackageSize() {
+        return packageSize;
+    }
+
+    /**
+     * @param packageSize the packageSize to set
+     */
+    public void setPackageSize(String packageSize) {
+        this.packageSize = packageSize;
+    }
+    
 }

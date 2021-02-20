@@ -9,6 +9,8 @@ CREATE TABLE `product` (
   `product_name` varchar(100) DEFAULT NULL,
   `product_desc` varchar(100) DEFAULT NULL,
   `package_size` varchar(20) DEFAULT NULL,
+  `retail_price` decimal(17,2),
+  `selling_price` decimal(17,2),
   PRIMARY KEY (`product_id`)
 );
 CREATE TABLE `stock` (
@@ -34,6 +36,10 @@ CREATE TABLE `sale` (
   `sale_date` date NOT NULL,
   KEY `FK_PROD_ID` (`product_id`),
   FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`)
+);
+CREATE TABLE `user_account` (
+  `user` varchar(100) unique not null,
+  `pass` varchar(100) not null
 );
 INSERT INTO `ims`.`product` (`product_id`,`product_name`,`product_desc`,`package_size`)
 VALUES

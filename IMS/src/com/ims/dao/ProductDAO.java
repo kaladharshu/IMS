@@ -23,8 +23,13 @@ import java.util.logging.Logger;
  */
 public class ProductDAO {
 
-    private static final String SQL_INSERT = "INSERT INTO ims.product (product_id, product_name, product_desc, package_size) VALUES(?,?,?,?)";
-    private static final String SQL_SELECT = "SELECT product_id, product_name, product_desc, package_size FROM ims.product";
+    private static final String SQL_INSERT = "INSERT INTO ims.product "
+            + "(product_id, product_name, product_desc, package_size, retail_price, selling_price) "
+            + "VALUES(?,?,?,?,?,?)";
+    private static final String SQL_SELECT = "SELECT product_id, product_name, "
+            + "product_desc, package_size, retail_price, selling_price FROM ims.product";
+    private static final String SQL_UPDATE = "UPDATE ims.product SET product_name=?, "
+            + "product_desc=?, package_size=?, retail_price=?, selling_price=? WHERE product_id=? ";
 
     public void addProducts(List<Product> products) {
 
@@ -37,11 +42,35 @@ public class ProductDAO {
                 statement.setString(2, product.getProductName());
                 statement.setString(3, product.getProductDesc());
                 statement.setString(4, product.getPackageSize());
+                statement.setDouble(5, product.getRetailPrice());
+                statement.setDouble(6, product.getSellingPrice());
 
                 statement.addBatch();
 
             }
             statement.executeBatch();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            MySQLConnection.closeConnection();
+        }
+    }
+    
+    
+    public void updateProduct(Product product) {
+
+        try {
+            Connection connection = MySQLConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SQL_UPDATE);
+
+                statement.setString(1, product.getProductName());
+                statement.setString(2, product.getProductDesc());
+                statement.setString(3, product.getPackageSize());
+                statement.setDouble(4, product.getRetailPrice());
+                statement.setDouble(5, product.getSellingPrice());
+                statement.setInt(6, product.getProductID());
+
+            statement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -63,6 +92,8 @@ public class ProductDAO {
                     product.setProductName(resultSet.getString("product_name"));
                     product.setProductDesc(resultSet.getString("product_desc"));
                     product.setPackageSize(resultSet.getString("package_size"));
+                    product.setRetailPrice(resultSet.getDouble("retail_price"));
+                    product.setSellingPrice(resultSet.getDouble("selling_price"));
                     products.add(product);
                 } 
         } catch (SQLException ex) {

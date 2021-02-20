@@ -60,6 +60,7 @@ public class Sale {
     }
 
     /**
+     * 
      * @return the saleDate
      */
     public Date getSaleDate() {
